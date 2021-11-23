@@ -38,19 +38,18 @@
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <lastest-movie />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
+import LastestMovie from './components/LatestMovie.vue'
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    LastestMovie,
   },
 
   data: () => ({
