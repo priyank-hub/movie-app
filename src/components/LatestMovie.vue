@@ -1,43 +1,28 @@
 <template>
     <v-container v-if="loading">
         <div class="text-xs-center">
-        <v-progress-circular
-            indeterminate
-            :size="150"
-            :width="8"
-            color="green">
-        </v-progress-circular>
+            <!-- <v-progress-circular
+                indeterminate
+                :size="150"
+                :width="8"
+                color="green">
+            </v-progress-circular> -->
+            <v-row dense>
+                <v-col cols="12" sm="4" v-for="i in [1, 2, 3, 4, 5, 6]"
+                        :key="i">
+                    <v-sheet
+                        color="lighten-4"
+                        class="pa-3"
+                    >
+                        <v-skeleton-loader
+                        class="mx-auto"
+                        type="card"
+                        ></v-skeleton-loader>
+                    </v-sheet>
+                </v-col>
+            </v-row>
         </div>
     </v-container>
-    <!-- <v-container v-else grid-list-lg>
-        <v-layout wrap>
-        <v-flex xs4
-            v-for="(item, index) in wholeResponse"
-            :key="index"
-            mb-2>
-            <v-card>
-                <v-img
-                    :src="item.Poster"
-                    aspect-ratio="1"
-                ></v-img>
-                <v-card-title primary-title>
-                    <div>
-                        <h2>{{item.Title}}</h2>
-                        <div>Year: {{item.Year}}</div>
-                        <div>Type: {{item.Type}}</div>
-                        <div>IMDB-id: {{item.imdbID}}</div>
-                    </div>
-                </v-card-title>
-                <v-card-actions class="justify-center">
-                    <v-btn text
-                    color="green"
-                    @click="singleMovie(item.imdbID)"
-                    >View</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-flex>
-        </v-layout>
-    </v-container> -->
     <v-container v-else>
       <v-row dense>
         <v-col
@@ -96,7 +81,7 @@ import axios from 'axios';
     },
     mounted() {
         axios
-            .get('https://imdb-api.com/en/API/Search/k_1sdz3zba/kuch')
+            .get('https://imdb-api.com/en/API/Search/k_1sdz3zba/pirate')
             .then(response => {
                 this.wholeResponse = response.data.results
                 this.loading = false
