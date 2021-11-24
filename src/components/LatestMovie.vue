@@ -11,7 +11,7 @@
                 <v-col cols="12" sm="4" v-for="i in [1, 2, 3, 4, 5, 6]"
                         :key="i">
                     <v-sheet
-                        color="lighten-4"
+                        color="darken-2"
                         class="pa-3"
                     >
                         <v-skeleton-loader
@@ -71,6 +71,7 @@ import axios from 'axios';
         return {
             wholeResponse: null,
             loading: true,
+            poster: null,
 
             cards: [
                 {id: 1, title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 12 },
@@ -79,28 +80,53 @@ import axios from 'axios';
             ],
         }
     },
-    mounted() {
-        axios
-            .get('https://imdb-api.com/en/API/Search/k_1sdz3zba/pirate')
+    async mounted() {
+        // https://imdb-api.com/API/Posters/k_1sdz3zba/tt0468569
+        await axios
+            .get('https://imdb-api.com/en/API/Top250Movies/k_1sdz3zba')
             .then(response => {
-                this.wholeResponse = response.data.results
+                this.wholeResponse = response.data.items
                 this.loading = false
-                // console.log('response', this.wholeResponse);
 
                 this.wholeResponse.forEach(movie => {
+                    let imgUrl = `https://imdb-api.com/API/Posters/k_1sdz3zba/${movie.id}`
+
+                    axios.get(imgUrl)
+                    .then(response => {
+                        console.log('resp', response.data);
+                        this.poster = response.data.posters[0].link;
+                    })
+
                     this.cards.push({
                         id: movie.id,
                         title: movie.title,
-                        src: movie.image,
+                        src: this.poster,
                         flex: 12,
                     })
+                    this.poster = null
                 });
             })
             .catch(error => {
                 console.log(error)
             }
+
             // k_1sdz3zba
         );
+        // this.getImages();
+    },
+    methods: {
+        getImages() {
+            console.log("get Images");
+            this.wholeResponse.forEach(movie => {
+                let imgUrl = `https://imdb-api.com/API/Posters/k_1sdz3zba/${movie.id}`
+
+                axios.get(imgUrl)
+                .then(response => {
+                    console.log('resp', response.data);
+                    // this.poster = response.data.posters[0].link;
+                })
+            });
+        }
     }
   }
 </script>
